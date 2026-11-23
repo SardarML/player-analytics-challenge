@@ -1,0 +1,15 @@
+// Approved deposits minus approved withdrawals of real accounts, in EUR at the daily rate.
+Net Deposits EUR =
+VAR Dep =
+    CALCULATE(
+        SUMX(Deposits, Deposits[amount] * LOOKUPVALUE(FX[rate_to_eur], FX[date], Deposits[date], FX[currency], Deposits[currency])),
+        Deposits[status] = "approved",
+        Players[account_type] = "real"
+    )
+VAR Wd =
+    CALCULATE(
+        SUMX(Withdrawals, Withdrawals[amount] * LOOKUPVALUE(FX[rate_to_eur], FX[date], Withdrawals[date], FX[currency], Withdrawals[currency])),
+        Withdrawals[status] = "approved",
+        Players[account_type] = "real"
+    )
+RETURN Dep - Wd

@@ -49,3 +49,18 @@ def churn_rates(train):
         "no failed deposits": train["failed_deposits_30d"] == 0,
     }
     return {name: train.loc[mask, "churned_30d"].mean() for name, mask in groups.items()}
+
+
+def churn_segments(train):
+    """Return the churn rate for the segments described to CRM."""
+    days, failed, sessions = (train[c] for c in
+                              ("days_since_last_session", "failed_deposits_30d", "sessions_30d"))
+    segments = {
+        "inactive > 21 days": days > 21,
+        "inactive <= 3 days": days <= 3,
+        "failed deposits >= 2": failed >= 2,
+        "failed deposits = 0": failed == 0,
+        "sessions <= 7": sessions <= 7,
+        "sessions > 20": sessions > 20,
+    }
+    return {name: train.loc[mask, "churned_30d"].mean() for name, mask in segments.items()}

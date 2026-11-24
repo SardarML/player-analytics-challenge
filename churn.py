@@ -38,3 +38,14 @@ def predict_churn(train, test):
     model = churn_model().fit(train[FEATURES], train["churned_30d"])
     prob = model.predict_proba(test[FEATURES])[:, 1]
     return test[["player_id"]].assign(churn_probability=prob.round(6))
+
+
+def churn_rates(train):
+    """Return churn rates of the player groups compared in the CRM summary."""
+    groups = {
+        "inactive > 21 days": train["days_since_last_session"] > 21,
+        "active in last 3 days": train["days_since_last_session"] <= 3,
+        "2+ failed deposits": train["failed_deposits_30d"] >= 2,
+        "no failed deposits": train["failed_deposits_30d"] == 0,
+    }
+    return {name: train.loc[mask, "churned_30d"].mean() for name, mask in groups.items()}

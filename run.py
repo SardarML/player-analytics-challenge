@@ -3,10 +3,11 @@ from pathlib import Path
 import pandas as pd
 
 from checks import check_churn, check_recommendations
-from churn import evaluate_churn, predict_churn
+from churn import churn_rates, evaluate_churn, predict_churn
+from experiment import two_proportion_test
 from fraud import linked_groups
 from payments import net_deposits
-from recommendations import evaluate_recommendations, recommend
+from recommendations import co_played, evaluate_recommendations, recommend
 
 ROOT = Path(__file__).parent
 
@@ -34,6 +35,9 @@ def main():
     print(results["linked_groups"].query("flag").to_string())
     print("Churn ROC-AUC:", evaluate_churn(train))
     print("Hit@5:", evaluate_recommendations(plays))
+    print("A/B test (p-value, players per group):", two_proportion_test(200, 230, 5000))
+    print("Churn rates:", churn_rates(train))
+    print(co_played(plays, data["games"], "G040").head())
 
 
 if __name__ == "__main__":

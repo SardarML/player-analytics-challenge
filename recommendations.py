@@ -42,3 +42,11 @@ def recommend(plays, targets):
         "game_id": matrix.columns.to_numpy()[best.ravel()],
         "rank": np.tile(range(1, 6), len(targets)),
     })
+
+
+def co_played(plays, games, game_id):
+    """Count distinct players of game_id for every other game."""
+    players = plays.loc[plays["game_id"] == game_id, "player_id"]
+    other = plays[plays["player_id"].isin(players) & (plays["game_id"] != game_id)]
+    counts = other.groupby("game_id")["player_id"].nunique().rename("players").reset_index()
+    return counts.merge(games[["game_id", "title"]], on="game_id").sort_values("players", ascending=False)

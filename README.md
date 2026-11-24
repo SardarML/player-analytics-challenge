@@ -34,7 +34,3 @@ Net deposits are reported per brand and month.
 - Some records are dated before registration (686 deposits, 191 withdrawals) and 56 bonus claims after 14 November 2026. They are left unchanged.
 - Fraud flags need at least 3 linked accounts, 80% of them with a bonus. These thresholds were set after inspecting the data, so flags are for review, not automatic blocking.
 - Model choice and evaluation used the same data, so scores may be slightly optimistic.
-
-## AI use
-
-Claude Code was used for data profiling, writing the code, comparing models and drafting the documentation. Its largest role was the DAX measure, as I have little Power BI experience. Claude Code also ran the checks: cross-validation, submission format checks and an independent recalculation of the net deposits and linked groups.

@@ -50,10 +50,3 @@ def co_played(plays, games, game_id):
     other = plays[plays["player_id"].isin(players) & (plays["game_id"] != game_id)]
     counts = other.groupby("game_id")["player_id"].nunique().rename("players").reset_index()
     return counts.merge(games[["game_id", "title"]], on="game_id").sort_values("players", ascending=False)
-
-
-def co_played(plays, games, game_id):
-    """Return other games by number of distinct players who also played game_id."""
-    players = plays.loc[plays["game_id"] == game_id, "player_id"]
-    others = plays[plays["player_id"].isin(players) & (plays["game_id"] != game_id)]
-    return others.merge(games, on="game_id").groupby("title")["player_id"].nunique().sort_values(ascending=False)

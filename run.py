@@ -33,10 +33,7 @@ def main():
 
     print(results["net_deposits"])
     print(results["linked_groups"].query("flag").to_string())
-    print("A/B test:", two_proportion_test(200, 230, 5000))
     print("Churn ROC-AUC:", evaluate_churn(train))
-    print("Churn by segment:", churn_segments(train))
-    print(co_played(plays, data["games"], "G040").head())
     print("Hit@5:", evaluate_recommendations(plays))
     print("A/B test (p-value, players per group):", two_proportion_test(200, 230, 5000))
     print("Churn rates:", churn_rates(train))

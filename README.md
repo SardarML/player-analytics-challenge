@@ -1,6 +1,6 @@
 # Player Analytics Challenge
 
-Payments, bonus abuse, churn and game recommendations on synthetic iGaming data.
+Payments, bonus abuse, churn and game recommendations on synthetic igaming data.
 
 ## Run
 
